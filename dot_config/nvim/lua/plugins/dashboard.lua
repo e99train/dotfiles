@@ -61,6 +61,9 @@ return {
       scope = { enabled = true },
       scroll = { enabled = false },
       toggle = { map = LazyVim.safe_keymap_set },
+      picker = {
+        hidden = true,
+      },
     },
   },
 }
