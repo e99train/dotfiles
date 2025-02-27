@@ -1,0 +1,134 @@
+" .ideavimrc is a configuration file for IdeaVim plugin. It uses
+"   the same commands as the original .vimrc configuration.
+" You can find a list of commands here: https://jb.gg/h38q75
+" Find more examples here: https://jb.gg/share-ideavimrc
+
+set scrolloff=5
+set sidescrolloff=5
+set number relativenumber
+set showmode
+set showcmd
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
+set visualbell
+set multiple-cursors
+
+let mapleader = " "
+
+set clipboard+=unnamed
+
+set ideajoin
+set surround
+set commentary
+set highlightedyank
+set sneak
+
+" Don't use Ex mode, use Q for formatting.
+map Q gq
+
+nmap <Backspace> <Action>(Back)
+
+nmap <Esc> :noh<CR><Esc>
+imap <C-y> <action>(EditorChooseLookupItem)
+
+set easymotion
+set notimeout
+
+set NERDTree
+map <leader>e :NERDTree<CR>
+let NERDTreeQuitOnOpen=1
+
+set which-key
+" Which-key descriptions
+" ----------------------------------------------------------------------------------
+
+" File nav
+let g:WhichKeyDesc_leader = "<leader>e Open file explorer"
+
+" Code commands
+let g:WhichKeyDesc_leader = "<leader>c +code"
+let g:WhichKeyDesc_leader = "<leader>cr Rename"
+let g:WhichKeyDesc_leader = "<leader>cf Format code"
+let g:WhichKeyDesc_leader = "<leader>cd Code Diagnostics"
+let g:WhichKeyDesc_leader = "<leader>ca Code Actions"
+
+" Search
+let g:WhichKeyDesc_leader = "<leader>s +search"
+let g:WhichKeyDesc_leader = "<leader>sg Search Global"
+let g:WhichKeyDesc_leader = "<leader>sr Search Recents"
+let g:WhichKeyDesc_leader = "<leader>sf Search Files"
+let g:WhichKeyDesc_leader = "<leader><leader> Search Files"
+let g:WhichKeyDesc_leader = "<leader>sp Search in CWD"
+
+" LSP Nav
+let g:WhichKeyDesc_leader = "<leader>l +LSP"
+let g:WhichKeyDesc_leader = "<leader>le +Errors"
+let g:WhichKeyDesc_leader = "<leader>len Next Error"
+let g:WhichKeyDesc_leader = "<leader>lep Prev Error"
+
+
+" KEY MAPS
+" ----------------------------------------------------------------------------------
+
+" Code commands
+map <leader>cr <Action>(RenameElement)
+map <leader>cf <Action>(ReformatCode)
+map <leader>cd <Action>(ShowErrorDescription)
+map <leader>ca <Action>(ShowIntentionActions)
+
+" Search commands
+map <leader>sg <action>(SearchEverywhere)
+map <leader>sr <action>(RecentFiles)
+map <leader>sf <action>(GotoFile)
+map <leader><leader> <action>(GotoFile)
+map <leader>sp <action>(FindInPath)
+
+" Buffers/tabs
+map <leader>bd <action>(CloseContent)
+nnoremap <S-h> :tabprev<CR>
+nnoremap <S-l> :tabnext<CR>
+nmap <C-h> <C-w>h
+nmap <C-j> <C-w>j
+nmap <C-k> <C-w>k
+nmap <C-l> <C-w>l
+
+vmap <A-j> <Action>(MoveLineDown)
+nmap <A-j> <Action>(MoveLineDown)
+vmap <A-k> <Action>(MoveLineUp)
+nmap <A-k> <Action>(MoveLineUp)
+
+" Cursors
+nmap <C-n> <Plug>NextWholeOccurrence
+xmap <C-n> <Plug>NextWholeOccurrence
+nmap g<C-n> <Plug>NextOccurrence
+xmap g<C-n> <Plug>NextOccurrence
+xmap <C-x> <Plug>SkipOccurrence
+xmap <C-p> <Plug>RemoveOccurrence
+
+" Comments
+nmap gcc <action>(CommentByLineComment)
+vmap gc <action>(CommentByLineComment)
+
+" LSP Nav
+nmap gd <Action>(GotoDeclaration)
+nmap gr <Action>(ShowUsages)
+nmap gi <Action>(GotoImplementation)
+nmap gD <Action>(GotoTypeDeclaration)
+map <leader>len <Action>(ReSharperGotoNextErrorInSolution)
+map <leader>lep <Action>(ReSharperGotoPrevErrorInSolution)
+map <S-k> <Action>(ShowHoverInfo)
+
+" Easymotion
+map <leader>j <Plug>(easymotion-s)
+
+"" -- Map IDE actions to IdeaVim -- https://jb.gg/abva4t
+"" Map \r to the Reformat Code action
+"map \r <Action>(ReformatCode)
+
+"" Map <leader>d to start debug
+"map <leader>d <Action>(Debug)
+
+"" Map \b to toggle the breakpoint on the current line
+"map \b <Action>(ToggleLineBreakpoint)
