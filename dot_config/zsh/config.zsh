@@ -2,7 +2,6 @@
     git clone --depth 1 -- https://github.com/marlonrichert/zsh-snap.git ~/Repos/znap
 source ~/Repos/znap/znap.zsh
 
-(( ${+commands[direnv]} )) && emulate zsh -c "$(direnv export zsh)"
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -11,26 +10,25 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-(( ${+commands[direnv]} )) && emulate zsh -c "$(direnv hook zsh)"
-
-
-# PATH additions
-#
-export PATH=$PATH:/opt/homebrew/bin
-export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
-export PATH="$PATH:$HOME/Documents/Tools/tmux-sessionizer-aarch64-apple-darwin"
-
 
 # Variable defaults
 #
 EZA_CONFIG_DIR=/Users/ethanborsky/.config/eza
 EDITOR=/opt/homebrew/bin/nvim
 export MANPAGER='nvim +Man\!'
+export MISE_ENV_FILE=.env
+export ANDROID_HOME=$HOME/Library/Android/sdk
+
+
+# PATH additions
+#
+export PATH=$PATH:/opt/homebrew/bin
+export PATH="$PATH:$HOME/Documents/Tools/tmux-sessionizer-aarch64-apple-darwin"
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 
 source ~/.config/zsh/colors.zsh
-
-fpath=(${ASDF_DATA_DIR:-$HOME/.asdf}/completions $fpath)
 
 
 # Vim mode options
@@ -85,6 +83,9 @@ fi
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 znap source zsh-users/zsh-history-substring-search
+
+
+eval "$(mise activate zsh)"
 
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
