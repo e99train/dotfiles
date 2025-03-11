@@ -68,6 +68,7 @@ alias ts="tmux new-session -s"
 alias tl="tmux list-sessions"
 alias tksv="tmux kill-server"
 alias tkss="tmux kill-session -t"
+alias dotnet8="mise x dotnet@8 -- dotnet"
 
 alias ls="eza"
 alias fzfp="fzf --preview \"bat --color=always {}\""
