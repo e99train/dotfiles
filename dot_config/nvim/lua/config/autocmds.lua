@@ -11,3 +11,14 @@
 --   },
 --   command = "set filetype=ruby",
 -- })
+
+vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
+  pattern = {
+    ".env",
+    "*.env",
+    ".env.*",
+  },
+  callback = function(args)
+    vim.diagnostic.enable(false, { bufnr = args.buf })
+  end,
+})
