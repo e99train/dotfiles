@@ -1,4 +1,11 @@
 return {
   "folke/noice.nvim",
-  enabled = false,
+  opts = {
+    presets = {
+      command_palette = false,
+    },
+    cmdline = {
+      view = "cmdline",
+    },
+  },
 }
