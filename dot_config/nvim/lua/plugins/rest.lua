@@ -1,7 +1,6 @@
 return {
   {
-    "mistweaverco/kulala",
-    -- enabled = false,
+    "mistweaverco/kulala.nvim",
     keys = {
       {
         "<leader>Re",
@@ -11,6 +10,9 @@ return {
         desc = "Select env",
         ft = "http",
       },
+    },
+    opts = {
+      global_keymaps = true,
     },
   },
   -- {
