@@ -2,7 +2,7 @@ return {
   "seblyng/roslyn.nvim",
   ft = "cs",
   opts = {
-    filewatching = "roslyn",
+    filewatching = "auto",
     config = {
       settings = {
         ["csharp|inlay_hints"] = {
