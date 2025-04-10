@@ -12,7 +12,7 @@ return {
       },
     },
     opts = {
-      global_keymaps = true,
+      global_keymaps = false,
     },
   },
   -- {
