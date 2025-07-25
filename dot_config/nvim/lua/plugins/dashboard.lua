@@ -7,7 +7,7 @@ return {
         autoopen = true,
         items = {
           require("mini.starter").sections.builtin_actions(),
-          require("mini.starter").sections.recent_files(5, true),
+          require("mini.starter").sections.recent_files(5, true, false),
           {
             name = "Oil File Explorer",
             action = function()

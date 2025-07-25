@@ -12,6 +12,9 @@ return {
       },
     },
     opts = {
+      lsp = {
+        formatter = false,
+      },
       global_keymaps = false,
     },
   },

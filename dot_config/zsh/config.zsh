@@ -26,6 +26,7 @@ export PATH=$PATH:/opt/homebrew/bin
 export PATH="$PATH:$HOME/Documents/Tools/tmux-sessionizer-aarch64-apple-darwin"
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$PATH:$HOME/.dotnet/tools
 
 
 source ~/.config/zsh/colors.zsh
@@ -42,6 +43,7 @@ MODE_CURSOR_VLINE="$MODE_CURSOR_VISUAL #00ffff"
 
 KEYTIMEOUT=1
 
+export GITHUB_LS_TOKEN="$(chezmoi secret keyring get --service=githubUIG --user=e99train)"
 
 # Main plugins
 #
