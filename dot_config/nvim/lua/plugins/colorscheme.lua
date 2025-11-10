@@ -22,18 +22,26 @@ return {
   --   end,
   -- },
 
+  -- {
+  --   "navarasu/onedark.nvim",
+  --   priority = 1000,
+  --   opts = {
+  --     style = "darker",
+  --   },
+  -- },
+
   {
-    "navarasu/onedark.nvim",
+    "miikanissi/modus-themes.nvim",
     priority = 1000,
     opts = {
-      style = "darker",
+      style = "modus_vivendi",
     },
   },
 
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "onedark",
+      colorscheme = "modus",
     },
   },
 }

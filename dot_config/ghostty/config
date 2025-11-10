@@ -38,3 +38,4 @@ macos-option-as-alt = true
 shell-integration = zsh
 shell-integration-features = cursor,sudo,no-title
 title = "👻"
+scrollbar = never

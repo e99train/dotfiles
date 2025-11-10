@@ -93,3 +93,12 @@ eval "$(mise activate zsh)"
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 znap source zsh-users/zsh-syntax-highlighting
+
+# Yazi function to change cwd when quitting
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+	rm -f -- "$tmp"
+}
