@@ -16,6 +16,22 @@ vim.lsp.config("gh_actions_ls", {
   single_file_support = false,
   init_options = {
     sessionToken = os.getenv("GITHUB_LS_TOKEN"),
+    repos = {
+      {
+        id = 694878776,
+        owner = "United-Insurance",
+        name = "uig",
+        workspaceUri = "file://" .. vim.fn.getcwd(),
+        organizationOwned = true,
+      },
+      {
+        id = 638583109,
+        owner = "United-Insurance",
+        name = "uig-insured-client",
+        workspaceUri = "file://" .. vim.fn.getcwd(),
+        organizationOwned = true,
+      },
+    },
   },
 })
 
@@ -24,7 +40,7 @@ vim.lsp.config("roslyn", {
     "dotnet",
     "/Users/ethanborsky/.local/share/nvim/roslyn/Microsoft.CodeAnalysis.LanguageServer.dll",
     "--logLevel=Information",
-    "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.get_log_path()),
+    "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.log.get_filename()),
     "--stdio",
   },
   settings = {
@@ -47,6 +63,10 @@ vim.lsp.config("roslyn", {
     },
     ["csharp|completion"] = {
       dotnet_show_completion_items_from_unimported_namespaces = true,
+    },
+    ["csharp|background_analysis"] = {
+      dotnet_analyzer_diagnostics_scope = "openFiles",
+      dotnet_compiler_diagnostics_scope = "openFiles",
     },
   },
 })

@@ -31,9 +31,10 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
       return
     end
 
-    local buffers = vim.lsp.get_buffers_by_client_id(clients[1].id)
-    for _, buf in ipairs(buffers) do
-      vim.lsp.util._refresh("textDocument/diagnostic", { bufnr = buf })
+    local buffers = clients[1].attached_buffers
+    for buf, _ in ipairs(buffers) do
+      local params = { textDocument = vim.lsp.util.make_text_document_params(buf) }
+      clients[1]:request("textDocument/diagnostic", params, nil, buf)
     end
   end,
 })
