@@ -43,6 +43,10 @@ vim.lsp.config("roslyn", {
     "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.log.get_filename()),
     "--stdio",
   },
+  -- on_attach = function(client)
+  --   print("Attached to Roslyn LSP")
+  --   client.server_capabilities.diagnosticProvider = { workspaceDiagnostics = true }
+  -- end,
   settings = {
     ["csharp|inlay_hints"] = {
       csharp_enable_inlay_hints_for_implicit_object_creation = true,

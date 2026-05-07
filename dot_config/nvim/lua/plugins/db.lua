@@ -1,7 +1,6 @@
 return {
   {
-    -- "Kurren123/mssql.nvim",
-    dir = "~/projects/mssql.nvim",
+    "Kurren123/mssql.nvim",
     opts = {
       keymap_prefix = "<leader>m",
       lsp_settings = {
