@@ -10,6 +10,19 @@ vim.filetype.add({
   },
 })
 
+-- XCode lsp setup (swift and objective-c)
+vim.lsp.config("sourcekit", {
+  filetypes = { "swift", "objective-c", "objective-cpp", "objc", "objcpp" },
+  root_dir = function(_, callback)
+    callback(
+      require("lspconfig.util").root_pattern("Package.swift")(vim.fn.getcwd())
+        or vim.fs.dirname(vim.fs.find(".git", { path = vim.fn.getcwd(), upward = true })[1])
+    )
+  end,
+  cmd = { vim.trim(vim.fn.system("xcrun -f sourcekit-lsp")) },
+})
+vim.lsp.enable("sourcekit")
+
 vim.lsp.enable("gh_actions_ls")
 vim.lsp.config("gh_actions_ls", {
   filetypes = { "yaml.github" },

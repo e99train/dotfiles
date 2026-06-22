@@ -9,6 +9,7 @@ return {
         { "<leader>y", icon = "󰈢" },
         { "<leader>R", group = "Rest", icon = "󰖟" },
         { "<leader>K", icon = "" },
+        { "<leader>X", group = "Xcode", icon = "󰙯" },
       },
     },
   },

@@ -11,6 +11,7 @@ return {
     opts.formatters_by_ft.cs = { "csharpier", lsp_format = "first" }
     opts.formatters_by_ft.sql = { "sqlfluff" }
     opts.formatters_by_ft.json = { "fixjson" }
+    opts.formatters_by_ft.swift = { "swiftformat" }
     -- opts.formatters_by_ft.xml = { "csharpier" }
     opts.formatters.csharpier = {
       command = "dotnet",

@@ -5,7 +5,7 @@ return {
     ---@module 'roslyn.config'
     ---@type RoslynNvimConfig
     opts = {
-      filewatching = "auto",
+      -- filewatching = "auto",
       -- config = {
       --   cmd = {
       --     "dotnet",
