@@ -1,0 +1,46 @@
+#!/bin/zsh
+
+set -e
+
+if (( $# != 1 )); then
+    echo "Usage: hks <workspace-name>" >&2
+    exit 1
+fi
+
+name="$1"
+
+# Get all workspace IDs whose label exactly matches the requested name.
+matches=("${(@f)$(
+    herdr workspace list |
+        jq -r --arg name "$name" '
+            .result.workspaces[]
+            | select(.label == $name)
+            | .workspace_id
+        '
+)}")
+
+# No matches.
+if (( ${#matches[@]} == 0 )); then
+    echo "No Herdr workspace named '$name' exists." >&2
+    exit 1
+fi
+
+# More than one match: never guess.
+if (( ${#matches[@]} > 1 )); then
+    echo "Error: multiple Herdr workspaces named '$name' exist." >&2
+    echo "Refusing to close any workspace." >&2
+    echo >&2
+
+    herdr workspace list |
+        jq -r --arg name "$name" '
+            .result.workspaces[]
+            | select(.label == $name)
+            | "  \(.workspace_id)  workspace #\(.number)"
+        ' >&2
+
+    exit 1
+fi
+
+workspace_id="${matches[1]}"
+
+herdr workspace close "$workspace_id" >/dev/null

@@ -60,6 +60,21 @@ vim.lsp.config("roslyn", {
   --   print("Attached to Roslyn LSP")
   --   client.server_capabilities.diagnosticProvider = { workspaceDiagnostics = true }
   -- end,
+  handlers = {
+    -- Roslyn ignores the advertised `dynamicRegistration = false` (see
+    -- roslyn.nvim's `filewatching = "roslyn"` option) and still sends one
+    -- workspace/didChangeWatchedFiles registration per project, which piles
+    -- up as hundreds of duplicate entries in the client's dynamic
+    -- capabilities. Drop those registrations entirely before they reach
+    -- neovim's client, since roslyn-filewatch.nvim/Roslyn itself already
+    -- handles file watching.
+    ["client/registerCapability"] = function(err, res, ctx)
+      res.registrations = vim.tbl_filter(function(reg)
+        return reg.method ~= "workspace/didChangeWatchedFiles"
+      end, res.registrations)
+      return vim.lsp.handlers["client/registerCapability"](err, res, ctx)
+    end,
+  },
   settings = {
     ["csharp|inlay_hints"] = {
       csharp_enable_inlay_hints_for_implicit_object_creation = true,

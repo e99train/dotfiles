@@ -1,0 +1,82 @@
+#!/bin/zsh
+
+set -e
+
+search_repos() {
+    local -a search_dirs=(
+        "$HOME/.config"
+        "$HOME/Documents"
+        "$HOME/.local/share/chezmoi"
+        "$HOME/Developer"
+    )
+
+    for dir in "${search_dirs[@]}"; do
+        [[ -d "$dir" ]] || continue
+
+        fd \
+            --hidden \
+            --no-ignore \
+            --type d \
+            --glob '.git' \
+            --max-depth 11 \
+            "$dir" 2>/dev/null |
+        while IFS= read -r git_dir; do
+            dirname "$git_dir"
+        done
+    done |
+        sort -u
+}
+
+repo="$(
+    search_repos |
+        sed "s#^$HOME#~#" |
+        fzf \
+            --height=80% \
+            --reverse \
+            --border \
+            --prompt='Repository > ' \
+            --preview='repo="${1/#\~/$HOME}"; git -C "$repo" status --short --branch 2>/dev/null' \
+            --preview-window='right:50%'
+)" || exit 0
+
+repo="${repo/#\~/$HOME}"
+
+# Make sure the Herdr server is running.
+if ! herdr status server >/dev/null 2>&1; then
+    herdr server >/dev/null 2>&1 &
+    
+    # Wait for the server socket to become available.
+    for _ in {1..50}; do
+        if herdr status server >/dev/null 2>&1; then
+            break
+        fi
+        sleep 0.1
+    done
+fi
+
+# Create the workspace and capture its ID.
+response="$(
+    herdr workspace create \
+        --cwd "$repo" \
+        --label "$(basename "$repo")" \
+        --focus
+)"
+
+workspace_id="$(
+    printf '%s\n' "$response" |
+        jq -r '.result.workspace.workspace_id'
+)"
+
+if [[ -z "$workspace_id" || "$workspace_id" == "null" ]]; then
+    echo "Failed to create Herdr workspace." >&2
+    printf '%s\n' "$response" >&2
+    exit 1
+fi
+
+# If we're already inside Herdr, switch the existing client.
+# Otherwise, launch/attach the Herdr client.
+if [[ "$HERDR_ENV" == "1" ]]; then
+    herdr workspace focus "$workspace_id" >/dev/null
+else
+    exec herdr
+fi

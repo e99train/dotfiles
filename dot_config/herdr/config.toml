@@ -1,0 +1,88 @@
+onboarding = false
+
+[terminal]
+default_shell = "/bin/zsh"
+shell_mode = "auto"
+new_cwd = "follow"
+
+[keys]
+prefix = "ctrl+space"
+
+new_tab = "prefix+c"
+
+split_vertical = "prefix+v"
+split_horizontal = "prefix+minus"
+
+focus_pane_left = "alt+left"
+focus_pane_right = "alt+right"
+focus_pane_up = "alt+up"
+focus_pane_down = "alt+down"
+
+[[keys.command]]
+key = "prefix+tab"
+type = "plugin_action"
+command = "third774.last-workspace.toggle"
+description = "last workspace"
+
+[[keys.command]]
+key = "prefix+j"
+type = "plugin_action"
+command = "sessionizer.open"
+description = "Open project workspace"
+
+# herdr-splits: seamless navigation between nvim splits and herdr panes (Ctrl-h/j/k/l)
+[[keys.command]]
+key = "ctrl+h"
+type = "plugin_action"
+command = "herdr-splits.nav-left"
+
+[[keys.command]]
+key = "ctrl+j"
+type = "plugin_action"
+command = "herdr-splits.nav-down"
+
+[[keys.command]]
+key = "ctrl+k"
+type = "plugin_action"
+command = "herdr-splits.nav-up"
+
+[[keys.command]]
+key = "ctrl+l"
+type = "plugin_action"
+command = "herdr-splits.nav-right"
+
+# herdr-splits: resizing (Ctrl+arrow keys - avoids Alt-h/j/k/l aerospace conflict)
+[[keys.command]]
+key = "ctrl+left"
+type = "plugin_action"
+command = "herdr-splits.resize-left"
+
+[[keys.command]]
+key = "ctrl+down"
+type = "plugin_action"
+command = "herdr-splits.resize-down"
+
+[[keys.command]]
+key = "ctrl+up"
+type = "plugin_action"
+command = "herdr-splits.resize-up"
+
+[[keys.command]]
+key = "ctrl+right"
+type = "plugin_action"
+command = "herdr-splits.resize-right"
+
+[ui]
+mouse_capture = true
+pane_borders = true
+pane_gaps = false
+tab_bar_position = "bottom"
+sidebar_start_collapsed = true
+prompt_new_tab_name = false
+
+[ui.sound]
+enabled = false
+
+[theme]
+name = "tokyo-night"
+auto_switch = false

@@ -1,0 +1,18 @@
+[[search_dirs]]
+path = "/Users/ethanborsky/.config"
+depth = 10
+
+[[search_dirs]]
+path = "/Users/ethanborsky/Documents"
+depth = 10
+
+[[search_dirs]]
+path = "/Users/ethanborsky/.local/share/chezmoi"
+depth = 10
+
+[[search_dirs]]
+path = "/Users/ethanborsky/Developer"
+depth = 10
+
+[picker_colors]
+highlight_text_color = "#F8F7FC"

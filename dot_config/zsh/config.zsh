@@ -18,6 +18,7 @@ EDITOR=/opt/homebrew/bin/nvim
 export MANPAGER='nvim +Man\!'
 export MISE_ENV_FILE=.env
 export ANDROID_HOME=$HOME/Library/Android/sdk
+export TMS_CONFIG_FILE=$HOME/.config/tms/config.toml
 
 
 # PATH additions
@@ -27,6 +28,7 @@ export PATH="$PATH:$HOME/Documents/Tools/tmux-sessionizer-aarch64-apple-darwin"
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:$HOME/.dotnet/tools
+export PATH=$PATH:$HOME/.local/bin
 
 
 source ~/.config/zsh/colors.zsh
@@ -75,6 +77,9 @@ alias dotnet8="mise x dotnet@8 -- dotnet"
 alias ls="eza"
 alias fzfp="fzf --preview \"bat --color=always {}\""
 
+alias hr="herdr-project"
+alias hwl="herdr workspace list | jq"
+
 if type brew &>/dev/null; then
     FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 fi
@@ -102,3 +107,12 @@ function y() {
 	[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
 	rm -f -- "$tmp"
 }
+
+for _f in ${HOME}/.config/herdr/plugins/github/herdr-automatic-rename-*/shell/hook.zsh(N); do
+  source $_f; break
+done
+
+source ~/.config/zsh/completions.zsh
+
+# Force macOS PTY driver to broadcast current window size to tmux
+# [[ -n "$TMUX" ]] && kill -WINCH $$

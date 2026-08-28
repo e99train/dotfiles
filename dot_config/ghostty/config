@@ -13,6 +13,7 @@ selection-background = #3f638b
 selection-foreground = #ffffff
 cursor-color = #98989d
 cursor-style = bar
+cursor-style-blink = false
 # palette = 0=#1a1a1a
 # palette = 1=#cc372e
 # palette = 2=#26a439
@@ -36,6 +37,6 @@ bold-is-bright = true
 mouse-hide-while-typing = true
 macos-option-as-alt = true
 shell-integration = zsh
-shell-integration-features = cursor,sudo,no-title
+shell-integration-features = cursor,sudo,no-title,ssh-terminfo,ssh-env
 title = "👻"
 scrollbar = never

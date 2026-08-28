@@ -5,7 +5,10 @@ return {
     ---@module 'roslyn.config'
     ---@type RoslynNvimConfig
     opts = {
-      -- filewatching = "auto",
+      -- roslyn-filewatch.nvim handles file watching externally, so disable
+      -- roslyn.nvim's built-in dynamic registration to avoid duplicate
+      -- workspace/didChangeWatchedFiles registrations.
+      filewatching = "roslyn",
       -- config = {
       --   cmd = {
       --     "dotnet",
