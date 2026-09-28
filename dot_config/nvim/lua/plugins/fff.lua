@@ -1,0 +1,73 @@
+return {
+  --   -- 1. Install the core Rust-powered fff search backend
+  --   {
+  --     "dmtrKovalenko/fff.nvim",
+  --     build = function()
+  --       require("fff.download").download_or_build_binary()
+  --     end,
+  --     opts = {},
+  --   },
+  --
+  --   -- 2. Install the bridge that routes fff through snacks.picker
+  --   {
+  --     "so1ve/snacks-fff.nvim",
+  --     dependencies = { "folke/snacks.nvim", "dmtrKovalenko/fff.nvim" },
+  --     opts = {},
+  --     keys = {
+  --       -- Remap LazyVim's default Find Files to use fff backend via Snacks
+  --       {
+  --         "<leader><space>",
+  --         function()
+  --           require("snacks-fff").find_files()
+  --         end,
+  --         desc = "Find Files (fff + Snacks)",
+  --       },
+  --       {
+  --         "<leader>ff",
+  --         function()
+  --           require("snacks-fff").find_files()
+  --         end,
+  --         desc = "Find Files (fff + Snacks)",
+  --       },
+  --       -- Remap LazyVim's default Live Grep to use fff backend via Snacks
+  --       {
+  --         "<leader>sg",
+  --         function()
+  --           require("snacks-fff").live_grep()
+  --         end,
+  --         desc = "Grep (fff + Snacks)",
+  --       },
+  --       {
+  --         "<leader>/",
+  --         function()
+  --           require("snacks-fff").live_grep()
+  --         end,
+  --         desc = "Grep (fff + Snacks)",
+  --       },
+  --       -- Grep in current directory using fff backend via Snacks
+  --       {
+  --         "<leader>sG",
+  --         function()
+  --           require("snacks-fff").live_grep({ cwd = vim.fn.getcwd() })
+  --         end,
+  --         desc = "Grep in Current Directory (fff + Snacks)",
+  --       },
+  --       -- Grep for the word under the cursor using fff backend via Snacks
+  --       {
+  --         "<leader>sw",
+  --         function()
+  --           require("snacks-fff").grep_word()
+  --         end,
+  --         desc = "Grep Word Under Cursor (fff + Snacks)",
+  --       },
+  --       -- Grep for the word under the cursor in the current directory using fff backend via Snacks
+  --       {
+  --         "<leader>sW",
+  --         function()
+  --           require("snacks-fff").grep_word({ cwd = vim.fn.getcwd() })
+  --         end,
+  --         desc = "Grep Word Under Cursor in Current Directory (fff + Snacks)",
+  --       },
+  --     },
+  --   },
+}

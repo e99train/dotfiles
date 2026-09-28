@@ -30,6 +30,24 @@ type = "plugin_action"
 command = "sessionizer.open"
 description = "Open project workspace"
 
+[[keys.command]]
+key = "prefix+space"
+type = "plugin_action"
+command = "beyondlex.herdr-recent-navigator.focus-workspaces"
+description = "Open recent workspaces"
+
+[[keys.command]]
+key = "prefix+a"
+type = "plugin_action"
+command = "beyondlex.herdr-recent-navigator.focus-agents"
+description = "Open recent agents"
+
+[[keys.command]]
+key = "prefix+l"
+type = "plugin_action"
+command = "beyondlex.herdr-recent-navigator.focus-previous-tab"
+description = "Open previous tab"
+
 # herdr-splits: seamless navigation between nvim splits and herdr panes (Ctrl-h/j/k/l)
 [[keys.command]]
 key = "ctrl+h"
