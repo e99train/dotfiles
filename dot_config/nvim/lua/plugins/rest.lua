@@ -1,6 +1,6 @@
 return {
   {
-    "mistweaverco/kulala.nvim",
+    "dont-be-evil-company/kulala.nvim",
     keys = {
       {
         "<leader>Re",
@@ -12,6 +12,9 @@ return {
       },
     },
     opts = {
+      treesitter = {
+        enable = false,
+      },
       lsp = {
         formatter = false,
         keymaps = {

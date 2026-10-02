@@ -23,6 +23,20 @@ vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
   end,
 })
 
+vim.api.nvim_create_autocmd("User", {
+  pattern = "TSUpdate",
+  callback = function()
+    require("nvim-treesitter.parsers").kulala_http = {
+      install_info = {
+        url = "https://github.com/dont-be-evil-company/tree-sitter-kulala-http",
+        queries = "queries/kulala_http",
+        revision = "main",
+      },
+      tier = 1,
+    }
+  end,
+})
+
 -- vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 --   pattern = "*",
 --   callback = function()

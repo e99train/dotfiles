@@ -47,6 +47,8 @@ KEYTIMEOUT=1
 
 export GITHUB_LS_TOKEN="$(chezmoi secret keyring get --service=githubUIG --user=e99train)"
 
+export KULALA_CORE_LICENSE_TOKEN="$(chezmoi secret keyring get --service=kulala-nvim --user=e99train)"
+
 # Main plugins
 #
 znap source romkatv/powerlevel10k
@@ -111,6 +113,19 @@ function y() {
 for _f in ${HOME}/.config/herdr/plugins/github/herdr-automatic-rename-*/shell/hook.zsh(N); do
   source $_f; break
 done
+
+# resterm is not recursive by default, and it resolves exactly one env file per
+# workspace root, so both flags are required to reach the subdirectories
+alias resterm-uig='resterm --workspace ~/Documents/repos/uig/requests --recursive'
+
+# load the private values (RESTERM_BASIC_AUTH, RESTERM_API_KEY_*, ...) before
+# launching resterm, e.g.  resterm-uig  or  set -a; . .env; set +a; resterm-uig
+function resterm-uig-secrets() {
+	builtin cd -- ~/Documents/repos/uig/requests || return 1
+	[[ -f .env ]] || { print -u2 "no .env in $PWD"; return 1 }
+	set -a; . ./.env; set +a
+	resterm --workspace "$PWD" --recursive
+}
 
 source ~/.config/zsh/completions.zsh
 

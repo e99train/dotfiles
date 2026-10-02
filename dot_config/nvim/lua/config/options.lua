@@ -102,3 +102,8 @@ vim.lsp.config("roslyn", {
     },
   },
 })
+
+vim.env.KULALA_CORE_LICENSE_TOKEN = os.getenv("KULALA_CORE_LICENSE_TOKEN")
+
+vim.treesitter.language.register("kulala_http", { "http", "rest" })
+vim.treesitter.language.register("markdown", { "kulala_ui" })
