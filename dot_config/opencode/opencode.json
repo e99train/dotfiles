@@ -1,0 +1,36 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "plugins": [
+    "superpowers@git+https://github.com/obra/superpowers.git"
+  ],
+  "mcp": {
+    "servers": {
+      "aws-mcp": {
+        "environment": {
+          "AWS_MCP_PROXY_PROFILES": "uig-dev"
+        },
+        "type": "local",
+        "command": [
+          "uvx",
+          "mcp-proxy-for-aws@latest",
+          "https://aws-mcp.us-east-1.api.aws/mcp",
+          "--metadata",
+          "INSTALL_SOURCE=aws-cli"
+        ],
+        "environment": {
+          "AWS_MCP_PROXY_PROFILES": "uig-dev2-admin uig-prod"
+        }
+      }
+    },
+    "aws-mcp": {
+      "type": "local",
+      "command": [
+        "uvx",
+        "mcp-proxy-for-aws@latest",
+        "https://aws-mcp.us-east-1.api.aws/mcp",
+        "--metadata",
+        "INSTALL_SOURCE=aws-cli"
+      ]
+    }
+  }
+}

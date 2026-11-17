@@ -1,0 +1,94 @@
+#!/bin/zsh
+# Fuzzy project sessionizer for Rex (like tmux/herdr sessionizer)
+# Picks a git project directory with fzf, then opens or switches to its Rex session.
+
+# If running in a floating layer, close it when done.
+cleanup() {
+  if [[ -n "${REX_SESSION:-}" && -n "${REX_BLOCK:-}" ]]; then
+    layer_id="$("$REX" api call session.view -s "$REX_SESSION" 2>/dev/null | "$JQ" -r --arg bid "$REX_BLOCK" '.windows[].layers[] | select(any(.blocks[]; .block_id == $bid)) | .layer_id' | head -n1)"
+    if [[ -n "$layer_id" && "$layer_id" != "null" ]]; then
+      "$REX" api call session.close_layer -s "$REX_SESSION" "{\"layer_id\":\"$layer_id\"}" >/dev/null 2>&1
+    fi
+  fi
+}
+trap cleanup EXIT
+
+export PATH="/opt/homebrew/bin:/usr/local/bin:$HOME/.local/bin:${REX_BIN_DIR:-}:/usr/bin:/bin:/usr/sbin:/sbin"
+
+REX="${REX_BIN_DIR:+$REX_BIN_DIR/rex}"
+if [[ -z "$REX" || ! -x "$REX" ]]; then
+  REX="/Applications/Rex Beta.app/Contents/Helpers/Rex Server.rex/Contents/MacOS/rex"
+fi
+if [[ ! -x "$REX" ]]; then
+  REX="$(command -v rex)"
+fi
+
+FD="/opt/homebrew/bin/fd"
+FZF="/opt/homebrew/bin/fzf"
+JQ="/usr/bin/jq"
+
+# Search roots (match tmux sessionizer config, but only repos)
+roots=(
+  "$HOME/.config"
+  "$HOME/Documents/repos"
+  "$HOME/.local/share/chezmoi"
+  "$HOME/Developer"
+)
+
+# Generate git root directories, pruning nested repos
+{
+  for root in "${roots[@]}"; do
+    [[ -d "$root" ]] || continue
+    while IFS= read -r gitdir; do
+      [[ -n "$gitdir" ]] || continue
+      d="$(dirname "$gitdir")"
+      case "$d" in
+        *"/herdr/plugins/"*|*"/tmux/plugins/"*|*"/node_modules/"*|*"/Pods/"*|*.bak) continue ;;
+      esac
+      printf '%s\n' "$d"
+    done < <("$FD" -H -t d -g .git --max-depth 10 "$root" 2>/dev/null)
+  done
+} | sort -u | awk '
+  {
+    if (kept == "" || index($0, kept "/") != 1) {
+      print
+      kept = $0
+    }
+  }
+' | "$FZF" \
+    --height=100% \
+    --reverse \
+    --prompt="session> " \
+    --preview='ls -la {} 2>/dev/null | head -40' \
+    --preview-window=right:40% > /tmp/rex-sessionizer-selection 2>/dev/null
+
+if [[ -s /tmp/rex-sessionizer-selection ]]; then
+  selection="$(cat /tmp/rex-sessionizer-selection)"
+  rm -f /tmp/rex-sessionizer-selection
+else
+  selection=""
+  rm -f /tmp/rex-sessionizer-selection
+fi
+
+# Cancelled
+[[ -z "$selection" ]] && exit 0
+[[ -d "$selection" ]] || exit 0
+
+label="$(basename "$selection")"
+
+# Reuse existing session with same label, if any
+sid="$("$REX" ls --json 2>/dev/null | "$JQ" -r --arg label "$label" '.sessions[] | select(.label == $label) | .session_id' | head -n1)"
+
+if [[ -z "$sid" ]]; then
+  sid="$("$REX" new "$label" --cwd "$selection" --json 2>/dev/null | "$JQ" -r '.session_id')"
+fi
+
+# Switch the app to the session (requires Remote Control)
+if [[ -n "$sid" ]]; then
+  client="$("$REX" client ls --json 2>/dev/null | "$JQ" -r '.clients[] | select(.info.kind == "app") | .info.label' | head -n1)"
+  if [[ -n "$client" ]]; then
+    "$REX" -C "$client" do session.select session_id="$sid" >/dev/null 2>&1
+  fi
+fi
+
+exit 0

@@ -8,28 +8,29 @@ window-padding-color = extend
 window-height = 78
 window-width = 180
 window-colorspace = display-p3
-theme = Builtin Dark
+background = #000000
+foreground = #bbbbbb
 selection-background = #3f638b
 selection-foreground = #ffffff
 cursor-color = #98989d
 cursor-style = bar
 cursor-style-blink = false
-# palette = 0=#1a1a1a
-# palette = 1=#cc372e
-# palette = 2=#26a439
-# palette = 3=#cdac08
-# palette = 4=#0869cb
-# palette = 5=#9647bf
-# palette = 6=#479ec2
-# palette = 7=#98989d
-# palette = 8=#464646
-# palette = 9=#ff453a
-# palette = 10=#32d74b
-# palette = 11=#ffd60a
-# palette = 12=#0a84ff
-# palette = 13=#bf5af2
-# palette = 14=#76d6ff
-# palette = 15=#ffffff
+palette = 0=#000000
+palette = 1=#bb0000
+palette = 2=#00bb00
+palette = 3=#bbbb00
+palette = 4=#0d0dc8
+palette = 5=#bb00bb
+palette = 6=#00bbbb
+palette = 7=#bbbbbb
+palette = 8=#555555
+palette = 9=#ff5555
+palette = 10=#55ff55
+palette = 11=#ffff55
+palette = 12=#5555ff
+palette = 13=#ff55ff
+palette = 14=#55ffff
+palette = 15=#ffffff
 font-size = 15
 font-family = "MesloLGS NF"
 font-thicken = true

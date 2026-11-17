@@ -9,7 +9,7 @@ return {
     --   args = { "format", "$FILENAME", "--write-stdout" },
     -- }
     opts.formatters_by_ft.cs = { "csharpier", lsp_format = "first" }
-    opts.formatters_by_ft.sql = { "sqlfluff" }
+    -- sqlfluff removed (not installed); avoid ENOENT on .sql files
     opts.formatters_by_ft.json = { "fixjson" }
     opts.formatters_by_ft.swift = { "swiftformat" }
     -- opts.formatters_by_ft.xml = { "csharpier" }
@@ -17,14 +17,18 @@ return {
       command = "dotnet",
       args = { "csharpier", "format", "--write-stdout" },
     }
-    opts.formatters.sqlfluff = {
-      command = "sqlfluff",
-      args = { "format", "--dialect=ansi", "-" },
-      stdin = true,
-      cwd = function()
-        return vim.fn.getcwd()
-      end,
-    }
+    -- strip any sqlfluff entries added by LazyVim sql extra
+    for _, ft in ipairs({ "sql", "mysql", "plsql" }) do
+      if type(opts.formatters_by_ft[ft]) == "table" then
+        opts.formatters_by_ft[ft] = vim.tbl_filter(function(f)
+          return f ~= "sqlfluff"
+        end, opts.formatters_by_ft[ft])
+        if #opts.formatters_by_ft[ft] == 0 then
+          opts.formatters_by_ft[ft] = nil
+        end
+      end
+    end
+    opts.formatters.sqlfluff = nil
     -- opts.log_level = vim.log.levels.DEBUG
   end,
 }
