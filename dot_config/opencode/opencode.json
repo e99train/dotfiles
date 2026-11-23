@@ -31,6 +31,14 @@
         "--metadata",
         "INSTALL_SOURCE=aws-cli"
       ]
+    },
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      "enabled": true,
+      "headers": {
+        "Authorization": "Bearer ctx7sk-73a4e4de-4cd2-4cc9-a69d-70610973fa72"
+      }
     }
   }
 }

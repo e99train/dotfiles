@@ -23,7 +23,7 @@ export TMS_CONFIG_FILE=$HOME/.config/tms/config.toml
 
 # PATH additions
 #
-export PATH=$PATH:/opt/homebrew/bin
+export PATH=/opt/homebrew/bin:/opt/homebrew/sbin:$PATH
 export PATH="$PATH:$HOME/Documents/Tools/tmux-sessionizer-aarch64-apple-darwin"
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
@@ -86,7 +86,9 @@ if type brew &>/dev/null; then
     FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 fi
 
-(( $+commands[zoxide] )) && znap eval zoxide 'zoxide init --cmd cd zsh'
+# Skipped in Claude Code shells (CLAUDECODE=1): its shell snapshot copies the `cd` wrapper but not
+# zoxide's precmd hook, so zoxide's doctor warns on every `cd` there. Plain builtin cd is fine.
+[[ -z $CLAUDECODE ]] && (( $+commands[zoxide] )) && znap eval zoxide 'zoxide init --cmd cd zsh'
 # eval "$(zoxide init zsh --cmd cd)"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.

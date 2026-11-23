@@ -18,8 +18,16 @@
     "style": "default"
   },
   "attention": {
-    "notifications": false,
+    "notifications": true,
     "sound": false
   },
-  "plugins": ["./herdr-opencode"]
+  "plugins": [
+    "./herdr-opencode"
+  ],
+  "animations": true,
+  "tabs": {
+    "mode": "off",
+    "indicators": "status",
+    "layout": "horizontal"
+  }
 }
