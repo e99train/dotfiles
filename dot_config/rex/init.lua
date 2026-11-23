@@ -293,6 +293,8 @@ rex.bind("ctrl+space>x", "pane.close")
 rex.bind("ctrl+space>shift+x", "client.tab.close")
 rex.bind("ctrl+space>n", "client.tab.next")
 rex.bind("ctrl+space>p", "client.tab.previous")
+rex.bind("ctrl+space>shift+h", "client.tab.move.backward")
+rex.bind("ctrl+space>shift+l", "client.tab.move.forward")
 rex.bind("ctrl+space>z", "pane.zoom")
 
 -- Jump to a tab by number (ctrl+space, then the digit). Mirrors herdr's
