@@ -316,6 +316,30 @@ rex.bind("alt+right", "pane.focus.right")
 rex.bind("alt+up", "pane.focus.up")
 rex.bind("alt+down", "pane.focus.down")
 
+-- Seamless nvim <-> Rex pane navigation (ctrl+h/j/k/l), like vim-tmux-navigator.
+-- If the focused pane is running (n)vim, the key is passed through so nvim can
+-- move between its own splits; nvim calls `rex focus <dir>` when it hits the
+-- edge (see nvim/lua/plugins/rex-navigator.lua). Otherwise Rex moves focus.
+local VIM_PROCESS_NAMES = { nvim = true, vim = true, vi = true, view = true, vimdiff = true }
+
+local function focused_is_vim()
+  local proc = rex.block.call("com.superlogical.terminal", "process", {})
+  local fg = type(proc) == "table" and proc.foreground or nil
+  if type(fg) ~= "table" then return false end
+  local name = basename(fg.name or fg.argv0 or "")
+  return VIM_PROCESS_NAMES[name] == true
+end
+
+for key, dir in pairs({ h = "left", j = "down", k = "up", l = "right" }) do
+  rex.bind("ctrl+" .. key, function(ctx, ev)
+    if focused_is_vim() then
+      return false -- let nvim handle it
+    end
+    rex.session.focus_direction({ session_id = ctx.session_id, direction = dir })
+    return true
+  end)
+end
+
 -- Pane resize (ctrl+arrows)
 rex.bind("ctrl+left", "pane.resize", { direction = "left" })
 rex.bind("ctrl+right", "pane.resize", { direction = "right" })
