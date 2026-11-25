@@ -12,7 +12,25 @@ local current_session_id = nil
 local LAST_SESSION_STATE_FILE = os.getenv("HOME") .. "/.local/state/rex/last-session.txt"
 local LAST_SESSION_TRACKER = os.getenv("HOME") .. "/.config/rex/track-last-session.lua"
 local LAST_SESSION_TRACKER_PID = os.getenv("HOME") .. "/.local/state/rex/track-last-session.pid"
-local REX_BIN = "/Applications/Rex Beta.app/Contents/Helpers/Rex Server.rex/Contents/MacOS/rex"
+-- The rex binary has moved between releases (and the app was renamed from
+-- "Rex Beta.app" to "Rex.app"), so use the first candidate that exists.
+local function file_exists(path)
+  local f = io.open(path, "r")
+  if f then f:close() return true end
+  return false
+end
+
+local REX_BIN = (function()
+  local candidates = {
+    os.getenv("HOME") .. "/Library/Application Support/com.superlogical.rex/RexServer/Versions/Current/Rex Server.app/Contents/MacOS/rex",
+    "/Applications/Rex.app/Contents/Helpers/Rex Server.rex/Contents/MacOS/rex",
+    "/Applications/Rex Beta.app/Contents/Helpers/Rex Server.rex/Contents/MacOS/rex",
+  }
+  for _, p in ipairs(candidates) do
+    if file_exists(p) then return p end
+  end
+  return "rex" -- fall back to PATH lookup
+end)()
 
 local function read_last_session_state()
   local cur, last
@@ -70,7 +88,7 @@ if not tracker_running() then
   if h ~= nil and h.pid ~= nil then
     local f = io.open(LAST_SESSION_TRACKER_PID, "w")
     if f then
-      f:write(tostring(h.pid) .. "\\n")
+      f:write(tostring(h.pid) .. "\n")
       f:close()
     end
   end
